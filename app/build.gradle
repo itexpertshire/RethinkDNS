@@ -12,10 +12,10 @@ try {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 } catch (Exception ex) {
     logger.warn("No keys.  Release disabled: $ex.message")
-    keystoreProperties['keyAlias'] = ''
-    keystoreProperties['keyPassword'] = ''
-    keystoreProperties['storeFile'] = '/dev/null'
-    keystoreProperties['storePassword'] = ''
+    keystoreProperties['keyAlias'] = 'androiddebugkey'
+    keystoreProperties['keyPassword'] = 'android'
+    keystoreProperties['storeFile'] = '../../../release.keystore'
+    keystoreProperties['storePassword'] = 'android'
 }
 
 // stackoverflow.com/a/28661942
@@ -34,10 +34,10 @@ android {
 
     signingConfigs {
         config {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
+            storeFile file('/Users/amit/AndroidStudioProjects/release.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
         }
     }
 
@@ -52,6 +52,7 @@ android {
         versionCode 25 // for version name 053n
         versionName "053n"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.config
     }
 
     compileOptions {
@@ -67,6 +68,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfigs.config
         }
         leakCanary {
             matchingFallbacks = ['debug']
